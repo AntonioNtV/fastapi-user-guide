@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from enum import Enum
+from typing import Optional
 
 class ModelName(str, Enum):
     alexnet = "alexnet"
@@ -36,5 +37,11 @@ async def read_file(file_path: str):
     return {"file_path": file_path}
 
 @app.get("/item/")
-def read_item(skip: int = 0, limit: int = 0):
+async def read_item(skip: int = 0, limit: int = 0):
     return fake_items_db[skip: skip + limit]
+
+@app.get("/items/{item_id}")
+async def read_item_by_id(item_id: str, q: Optional[str] = None):
+    if q:
+        return {"item": item_id, "q": q}
+    return {"item": item_id}
