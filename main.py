@@ -8,17 +8,16 @@ class ModelName(str, Enum):
 
 app = FastAPI()
 
-items = ["Cachorro", "Gato", "Rato", "Unicornio"]
+animals = ["Cachorro", "Gato", "Rato", "Unicornio"]
 
-
-@app.get("/items/cachorro")
+@app.get("/animals/cachorro")
 async def get_cachorro():
-    return {"item": items[0]}
+    return {"item": animals[0]}
 
-@app.get("/items/{item_id}")
-async def get_item_by_id(item_id: int):
-    if item_id - 1 >= len(items): raise Exception("Invalid Item Id")
-    return {"item": items[item_id - 1]}
+@app.get("/animals/{animal_id}")
+async def get_animal_by_id(animal_id: int):
+    if animal_id - 1 >= len(animals): raise Exception("Invalid Item Id")
+    return {"item": animals[animal_id - 1]}
 
 @app.get("/models/{model_name}")
 async def get_model(model_name: ModelName):
