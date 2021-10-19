@@ -50,7 +50,14 @@ async def read_item(skip: int = 0, limit: int = 0):
     return fake_items_db[skip: skip + limit]
 
 @app.get("/items/{item_id}")
-async def read_item_by_id(item_id: str, q: Optional[List[str]] = Query(["Foo", "Bar"]), short: bool = False):
+async def read_item_by_id(item_id: str, 
+                            q: Optional[str] = Query(
+                               None,
+                               title="Query String",
+                               description="Query String for the items to search in the database that have a good match"
+                            ), 
+                            short: bool = False
+                        ):
     item = {"item_id": item_id}
     if q:
         item.update({"q": q})
