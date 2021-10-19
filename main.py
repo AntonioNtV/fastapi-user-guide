@@ -62,5 +62,10 @@ async def read_item_by_id(item_id: str, q: Optional[str] = None, short: bool = F
 
 @app.post("/items/")
 def create_item(item: Item):
+    item_dict = item.dict()
+
+    if item.tax:
+        price_with_tax = item.price + item.tax
+        item_dict.update({"price_with_tax": price_with_tax})
     registered_items.append(item)
-    return item
+    return item_dict
