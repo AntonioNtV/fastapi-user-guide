@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Query
 from enum import Enum
-from typing import Optional
+from typing import Optional, List
 from pydantic import BaseModel 
 
 class ModelName(str, Enum):
@@ -50,7 +50,7 @@ async def read_item(skip: int = 0, limit: int = 0):
     return fake_items_db[skip: skip + limit]
 
 @app.get("/items/{item_id}")
-async def read_item_by_id(item_id: str, q: Optional[str] = Query("fixedquery", min_length= 5, max_length= 20, regex="^fixedquery$"), short: bool = False):
+async def read_item_by_id(item_id: str, q: Optional[List[str]] = Query(None), short: bool = False):
     item = {"item_id": item_id}
     if q:
         item.update({"q": q})
